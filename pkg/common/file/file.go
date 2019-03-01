@@ -54,6 +54,14 @@ func FilePathExist(_path string) bool {
 	return true
 }
 
+func FileIsDir(_path string) (bool, error) {
+	f, err := os.Stat(_path)
+	if err != nil{
+		return false, err
+	}
+	return f.IsDir(), nil
+}
+
 func Copy(src, dst string) error {
 	input, err := ioutil.ReadFile(src)
 	if err != nil {
