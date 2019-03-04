@@ -9,8 +9,8 @@ import (
 
 var (
 	cfgFile string
-	src string
-	dst string
+	srcs []string
+	dsts []string
 	csv string
 )
 
@@ -22,7 +22,7 @@ var rootCmd = &cobra.Command{
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
-		cp := filecp.New(src, dst, csv)
+		cp := filecp.New(srcs, dsts, csv)
 		if err := cp.Copy(); err != nil {
 			log.Logger.Fatal(err.Error())
 		}
@@ -45,8 +45,8 @@ func init() {
 	// will be global for your application.
 	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "","config file")
 	rootCmd.PersistentFlags().StringVarP(&csv, "from-csv", "f", "", "the csv file that contain src and dst file")
-	rootCmd.PersistentFlags().StringVarP(&src, "src", "s", "", "the source file to copy")
-	rootCmd.PersistentFlags().StringVarP(&dst, "dst", "d", "", "the destination file path to copy")
+	rootCmd.PersistentFlags().StringArrayVarP(&srcs, "src-file", "s", []string{}, "the source files to copy, e.g. -s /src1.txt -s /src2.txt")
+	rootCmd.PersistentFlags().StringArrayVarP(&dsts, "dst-file", "d", []string{}, "the destination files to copy, e.g. -d /dst1.txt -d /dst2.txt")
 }
 
 // initConfig reads in config file and ENV variables if set.

@@ -14,13 +14,13 @@ type FilecpRow struct {
 } 
 
 type Filecp struct {
-	src string
-	dst string
+	srcs []string
+	dsts []string
 	csv string
 }
 
-func New(src, dst, csv string) *Filecp {
-	return &Filecp{src: src, dst: dst, csv: csv}
+func New(srcs, dsts []string, csv string) *Filecp {
+	return &Filecp{srcs: srcs, dsts: dsts, csv: csv}
 }
 
 func (cp *Filecp) shouldNotBeDir(path string) error {
@@ -33,6 +33,9 @@ func (cp *Filecp) shouldNotBeDir(path string) error {
 }
 
 func (cp *Filecp) CopyOne(src, dst string) error {
+	if dst == "" || src == "" {
+		return errors.New("src or dst should not be empty string")
+	}
 	if !file.FilePathExist(src){
 		return fmt.Errorf("%s not found", src)
 	}
@@ -64,12 +67,16 @@ func (cp *Filecp) CopyMul(cps []FilecpRow) error {
 }
 
 func (cp *Filecp) Copy() error {
-	if cp.dst == "" || cp.src == "" {
-		return errors.New("src or dst should not be empty string")
+	if len(cp.srcs) <= 0 || len(cp.dsts) <= 0 || len(cp.srcs) != len(cp.dsts) {
+		return errors.New("param 'srcs' or 'dsts' invalid")
 	}
 	if cp.csv != "" {
 		return errors.New("csv not supported now")
 	}
-	cps := []FilecpRow{FilecpRow{src: cp.src, dst: cp.dst}}
-	return cp.CopyMul(cps)
+	rows := make([]FilecpRow, len(cp.srcs))
+	for k, v := range cp.srcs {
+		row := FilecpRow{src: v, dst: cp.dsts[k]}
+		rows[k] = row
+	}
+	return cp.CopyMul(rows)
 }
