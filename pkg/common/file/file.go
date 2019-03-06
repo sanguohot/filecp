@@ -6,18 +6,18 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
-	"path"
+	"path/filepath"
 )
 
 func IsFileExist(output, name string) bool {
-	if _, err := os.Stat(path.Join(output, name)); err == nil {
+	if _, err := os.Stat(filepath.Join(output, name)); err == nil {
 		// path/to/whatever exists
 		return true
 	}
 	return false
 }
 func SaveToLocal(output, name string, data []byte) error {
-	filePath := path.Join(output, name)
+	filePath := filepath.Join(output, name)
 	if !FilePathExist(output) {
 		err := os.Mkdir(output, os.ModePerm)
 		if err != nil {
@@ -32,7 +32,7 @@ func SaveToLocal(output, name string, data []byte) error {
 }
 
 func AppendUrlToLocal(output, name string, data []byte) error {
-	filePath := path.Join(output, name)
+	filePath := filepath.Join(output, name)
 	f, err := os.OpenFile(filePath, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
 	if err != nil {
 		return err

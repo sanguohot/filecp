@@ -3,7 +3,7 @@ package etc
 import (
 	"github.com/spf13/viper"
 	"os"
-	"path"
+	"path/filepath"
 )
 
 // auto generate struct
@@ -32,7 +32,7 @@ func init() {
 	if serverPath == "" {
 		serverPath = "./"
 	}
-	InitConfig(path.Join(GetServerDir(), defaultFilePath))
+	InitConfig(filepath.Join(GetServerDir(), defaultFilePath))
 }
 func InitConfig(filePath string) {
 	ViperConfig = viper.New()
@@ -66,7 +66,7 @@ func ServerTypeIsProd() bool {
 }
 
 func GetLogPath() string {
-	return path.Join(GetServerDir(), Config.Log.Path)
+	return filepath.Join(GetServerDir(), Config.Log.Path)
 }
 
 func GetLogHostAddress() string {

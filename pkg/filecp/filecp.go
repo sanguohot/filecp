@@ -53,7 +53,6 @@ func (cp *Filecp) CopyOne(src, dst string) error {
 	if err != nil {
 		return err
 	}
-	log.Sugar.Infof("copy %s => %s done", src, dst)
 	return nil
 }
 
@@ -62,6 +61,7 @@ func (cp *Filecp) CopyMul(cps []FilecpRow) error {
 		if err := cp.CopyOne(v.src, v.dst); err != nil {
 			return err
 		}
+		log.Sugar.Infof("copy %s => %s done", v.src, v.dst)
 	}
 	return nil
 }

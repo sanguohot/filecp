@@ -38,12 +38,12 @@ func Execute() {
 }
 
 func init() {
-	cobra.OnInitialize(initConfig)
+	//cobra.OnInitialize(initConfig)
 
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
-	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "","config file")
+	//rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "","config file")
 	rootCmd.PersistentFlags().StringVarP(&csv, "from-csv", "f", "", "the csv file that contain src and dst file")
 	rootCmd.PersistentFlags().StringArrayVarP(&srcs, "src-file", "s", []string{}, "the source files to copy, e.g. -s /src1.txt -s /src2.txt")
 	rootCmd.PersistentFlags().StringArrayVarP(&dsts, "dst-file", "d", []string{}, "the destination files to copy, e.g. -d /dst1.txt -d /dst2.txt")
